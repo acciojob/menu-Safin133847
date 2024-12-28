@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const MENU_DATA = [
   {
@@ -76,42 +75,68 @@ const MENU_DATA = [
   },
 ];
 
-
 const Menu = () => {
-  const [list, setlist] = useState(MENU_DATA);
+  const [list, setList] = useState(MENU_DATA);
+  const [activeCategory, setActiveCategory] = useState("all");
 
   const onFilter = (category) => {
+    setActiveCategory(category);
     if (category === "all") {
-      setlist(MENU_DATA);
+      setList(MENU_DATA);
     } else {
       const matches = MENU_DATA.filter((i) => i.category === category);
-
-      setlist(matches);
+      setList(matches);
     }
   };
+
+  const formatPrice = (price) => {
+    return `$${price.toFixed(2)}`;
+  };
+
   return (
     <div id="main">
       <h1>Our Menu</h1>
 
       <div>
-        <button  id="filter-btn-0" onClick={() => onFilter("all")}>All</button>
-        <button data-test-id="menu-item-breakfast" id="filter-btn-1" onClick={() => onFilter("breakfast")}>Breakfast</button>
-        <button data-test-id="menu-item-lunch" id="filter-btn-2" onClick={() => onFilter("lunch")}>Lunch</button>
-        <button data-test-id="menu-item-shakes" id="filter-btn-3" onClick={() => onFilter("shakes")}>Shakes</button>
+        {/* Updated button IDs as per the test case expectations */}
+        <button
+          id="filter-btn-0"
+          className={activeCategory === "all" ? "active" : ""}
+          onClick={() => onFilter("all")}
+        >
+          All
+        </button>
+        <button
+          id="filter-btn-1"
+          className={activeCategory === "breakfast" ? "active" : ""}
+          onClick={() => onFilter("breakfast")}
+        >
+          Breakfast
+        </button>
+        <button
+          id="filter-btn-2"
+          className={activeCategory === "lunch" ? "active" : ""}
+          onClick={() => onFilter("lunch")}
+        >
+          Lunch
+        </button>
+        <button
+          id="filter-btn-3"
+          className={activeCategory === "shakes" ? "active" : ""}
+          onClick={() => onFilter("shakes")}
+        >
+          Shakes
+        </button>
       </div>
 
-      <div>
-        {list.map((i) => (
-          <div key={i.id}>
-            <div>
-              <img src={i.img} alt={i.title} />
-            </div>
-            <div>
-              <div>
-                <span>{i.title}</span>
-                <span>{i.price}</span>
-              </div>
-              <div>{i.desc}</div>
+      <div className="menu-items">
+        {list.map((item) => (
+          <div key={item.id} className="menu-item">
+            <img src={item.img} alt={item.title} className="menu-img" />
+            <div className="menu-details">
+              <h3>{item.title}</h3>
+              <p className="menu-price">{formatPrice(item.price)}</p>
+              <p className="menu-desc">{item.desc}</p>
             </div>
           </div>
         ))}
