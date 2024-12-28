@@ -98,7 +98,6 @@ const Menu = () => {
       <h1>Our Menu</h1>
 
       <div>
-        {/* Updated button IDs as per the test case expectations */}
         <button
           id="filter-btn-0"
           className={activeCategory === "all" ? "active" : ""}
@@ -131,7 +130,10 @@ const Menu = () => {
 
       <div className="menu-items">
         {list.map((item) => (
-          <div key={item.id} className="menu-item">
+          <div
+            key={item.id}
+            className="menu-item"
+            data-test-id={`menu-item-${item.category}`} 
             <img src={item.img} alt={item.title} className="menu-img" />
             <div className="menu-details">
               <h3>{item.title}</h3>
